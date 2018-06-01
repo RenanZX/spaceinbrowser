@@ -4,8 +4,7 @@ function Mapa(largura, altura){
 	this.canvas.width = this.width = largura; //largura da tela
 	this.canvas.height = this.height = altura; //altura da tela
 	this.modelo2D = this.canvas.getContext("2d"); //objeto com métodos e propriedades pra trabalhar no canvas em 2d
-	//mudar endereço fonte do background conforme pc
-	this.canvas.style.backgroundImage = "url('file:///C:/Users/Matheus/Desktop/UnB/20181/LP/projeto_spinv/src/space3.gif')";
+	this.canvas.style.backgroundImage = "url('src/space3.gif')";
 
 	document.body.appendChild(this.canvas);
 };
