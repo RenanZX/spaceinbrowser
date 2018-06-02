@@ -17,6 +17,12 @@ Mapa.prototype.mostraSprite = function(spt, x, y){ //objeto de Map para gerar o 
 	this.modelo2D.drawImage(spt.img, spt.x, spt.y, spt.largura, spt.altura, x, y, spt.largura, spt.altura);
 };
 
+Mapa.prototype.mostraTexto = function(texto, x, y, tamanho=40, color="white", fonte="Courrier New"){
+	this.modelo2D.font = tamanho+"pt "+fonte;
+	this.modelo2D.fillText(texto, x+this.width/2, y+this.height/2);
+	this.modelo2D.fillStyle = color;
+}
+
 Mapa.prototype.mostraProjetil = function(projetil){ //objeto que gera projetéis da nave e do aliens
 	this.modelo2D.fillStyle = projetil.color;
 	this.modelo2D.fillRect(projetil.x, projetil.y, projetil.width, projetil.height);

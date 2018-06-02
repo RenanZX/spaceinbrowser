@@ -5,5 +5,6 @@ Obs.: Testes realizados no Chrome.
 
 # To-do
 
-  - Criar colisão de projétil inimigo contra a nave
-  - Sistema de vidas e pontuação
+  - Criar Menu de seleção
+  - Criar Sistema de Ranking
+  - Adicionar Suporte a GamePad(opcional)

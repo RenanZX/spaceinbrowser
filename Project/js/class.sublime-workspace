@@ -3,10 +3,41 @@
 	{
 		"selected_items":
 		[
+			[
+				"fig",
+				"fighter3"
+			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "/C/Users/Renan/Desktop/spaceinbrowser-master/Project/main.html",
+			"settings":
+			{
+				"buffer_size": 6525,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/Renan/Desktop/spaceinbrowser-master/README.md",
+			"settings":
+			{
+				"buffer_size": 334,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "class.js",
+			"settings":
+			{
+				"buffer_size": 2883,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -39,13 +70,20 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/C/Users/Renan/Desktop/spaceinbrowser-master/Project",
+		"/C/Users/Renan/Desktop/spaceinbrowser-master/Project/js",
+		"/C/Users/Renan/Desktop/spaceinbrowser-master/Project/src"
+	],
 	"file_history":
 	[
+		"/C/Users/Renan/Documents/LP/spaceinbrowser/README.md",
 		"/C/Users/Matheus/Desktop/UnB/20181/LP/projeto_spinv/js/class.js"
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 38.0
 	},
 	"find_in_files":
 	{
@@ -59,6 +97,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"canvas.style",
+			"canvas",
+			"atualiza",
+			"naveSP"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -76,8 +118,95 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/Renan/Desktop/spaceinbrowser-master/Project/main.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6525,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6360,
+								6360
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3565.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Renan/Desktop/spaceinbrowser-master/README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 334,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								226,
+								226
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "class.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2883,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								802,
+								802
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1584.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
 			]
 		}
 	],

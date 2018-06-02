@@ -22,6 +22,7 @@
 		var tela, input, frames, frameSP, frameLevel; //frameLevel controla a velocidade de atualização de certos sprites
 		var alienSP, naveSP; //sprites
 		var aliens, direcao, nave, projetil; //objetos do jogo
+		const damage = 16; // constante de dano da nave
 
 		function main(){
 			tela = new Mapa(502, 600);
@@ -33,6 +34,9 @@
 			var fighter = new Image();
 			fighter.src = "src/fighter2.png";
 
+			var vida = new Image();
+			vida.src = "src/fighter2.png";
+
 			img.addEventListener("load", function(){ //Faz o recorte de cada sprite da imagem completa
 				alienSP = [
 					[new Sprite(this, 0, 0, 22, 16), new Sprite(this, 0, 16, 22, 16)],
@@ -40,6 +44,7 @@
 					[new Sprite(this, 38, 0, 24, 16), new Sprite(this, 38, 16, 24, 16)]
 				];
 				naveSP = new Sprite(fighter, 0, 0, 30, 30);
+				lifeSP = new Sprite(vida, 0, 0, 30, 30);
 
 				iniciar();
 				executa();
@@ -56,7 +61,20 @@
 			nave = {
 				sprite: naveSP,
 				x: (tela.width - naveSP.largura) / 2,
-				y: tela.height - (30 + naveSP.altura)
+				y: tela.height - (30 + naveSP.altura),
+				largura: naveSP.largura,
+				altura: naveSP.altura,
+				dano: 0
+			}
+
+			life = {
+				sprite: lifeSP,
+				x: 450,
+				y: 3,
+				largura: lifeSP.largura,
+				altura: lifeSP.altura,
+				valor: 3,
+				pontos: 0
 			}
 
 			projetil = [];
@@ -112,6 +130,14 @@
 					continue;
 				}
 
+				if(colide(p.x,p.y,p.width,p.height, nave.x,nave.y,nave.largura,nave.altura)){//verifica se a nave foi atinginda
+					nave.dano-=damage; //incrementa o dano da nave
+					life.valor--; // tira uma barra de life da nave
+					projetil.splice(i,1);
+					i--;
+					tam--;
+				}
+
 				for(var j = 0, tam2 = aliens.length; j < tam2; j++){ //verifica colisão e destrói alvo atingido
 					var a = aliens[j];
 					if(colide(p.x, p.y, p.width, p.height, a.x, a.y, a.largura, a.altura)){
@@ -121,8 +147,10 @@
 						projetil.splice(i, 1);
 						i--;
 						tam--;
+						life.pontos++; //incrementa a pontuacao
 					}
 				}
+
 			}
 
 			if(Math.random() < 0.03 && aliens.length > 0){ //tiro dos aliens
@@ -135,6 +163,16 @@
 					}//evita que o sprite dos projéteis dos aliens de atras passem por cima dos aliens da frente
 				}
 				projetil.push(new atiraProjetil(a.x + a.largura*0.5, a.y + a.altura, 4, 2, 4, "#0f0"));
+			}
+
+
+			if(nave.dano < 0){
+				nave.dano++;
+				if(nave.sprite.img.src.includes("src/fighter2.png")){
+					nave.sprite.img.src = "src/fainted.png";
+				}else{
+					nave.sprite.img.src = "src/fighter2.png";
+				}
 			}
 
 			frames++;
@@ -161,18 +199,35 @@
 		function render(){ //processa o que deve ser visto na tela
 			tela.refresh();
 
-			for(var i = 0, tam = aliens.length; i < tam; i++){
-				var a = aliens[i];
-				tela.mostraSprite(a.sprite[frameSP], a.x, a.y);
-			}
+			if((life.valor > 0)&&(aliens.length > 0)){//verifica se ainda existem vidas
+				for(var i = 0, tam = aliens.length; i < tam; i++){
+					var a = aliens[i];
+					tela.mostraSprite(a.sprite[frameSP], a.x, a.y);
+				}
 
-			tela.modelo2D.save();
-			for(var i = 0, tam = projetil.length; i < tam; i++){
-				tela.mostraProjetil(projetil[i]);
+				tela.modelo2D.save();
+				for(var i = 0, tam = projetil.length; i < tam; i++){
+					tela.mostraProjetil(projetil[i]);
+				}
+				tela.modelo2D.restore();
+				tela.mostraSprite(nave.sprite, nave.x, nave.y);
+				tela.mostraSprite(life.sprite, life.x, life.y);
+				tela.mostraTexto("x"+life.valor, 170, -270, 15);
+			}else if(aliens.length > 0){
+				tela.mostraTexto("Game Over", -150, 0, 50);//gameover
+				if ((life.pontos == 1)||(life.pontos == -1)){
+					tela.mostraTexto("Você conseguiu "+life.pontos+" ponto", -200, 50, 30);
+				}else{
+					tela.mostraTexto("Você conseguiu "+life.pontos+" pontos", -200, 50, 30);	
+				}
+			}else{
+				tela.mostraTexto("Parabéns", -150, 0, 50);//gameover
+				if ((life.pontos == 1)||(life.pontos == -1)){
+					tela.mostraTexto("Você ganhou! Sua pontuacao foi de "+life.pontos+" ponto", -200, 50, 15);
+				}else{
+					tela.mostraTexto("Você ganhou! Sua pontuacao foi de "+life.pontos+" pontos", -200, 50, 15);	
+				}
 			}
-			tela.modelo2D.restore();
-
-			tela.mostraSprite(nave.sprite, nave.x, nave.y);
 		};
 		
 		main();
