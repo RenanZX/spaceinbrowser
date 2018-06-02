@@ -8,3 +8,4 @@ Obs.: Testes realizados no Chrome.
   - Criar Menu de seleção
   - Criar Sistema de Ranking
   - Adicionar Suporte a GamePad(opcional)
+  - Adicionar Trilha Sonora
