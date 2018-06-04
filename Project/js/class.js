@@ -5,6 +5,7 @@ function Mapa(largura, altura){
 	this.canvas.height = this.height = altura; //altura da tela
 	this.modelo2D = this.canvas.getContext("2d"); //objeto com métodos e propriedades pra trabalhar no canvas em 2d
 	this.canvas.style.backgroundImage = "url('src/space3.gif')";
+	this.modelo2D.textAlign="center"
 
 	document.body.appendChild(this.canvas);
 };

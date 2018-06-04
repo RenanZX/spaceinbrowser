@@ -19,16 +19,24 @@
 </head>
 <body>
 	<script>
-		var tela, input, frames, frameSP, frameLevel; //frameLevel controla a velocidade de atualização de certos sprites
+		var menu, tela, input, frames, frameSP, cimaId, baixoId, jogoId, img; //frameLevel controla a velocidade de atualização de certos sprites
 		var alienSP, naveSP; //sprites
 		var aliens, direcao, nave, projetil; //objetos do jogo
 		const damage = 16; // constante de dano da nave
+		const theme = new Audio("src/theme.mp3"); //música tema
+		const tiro = new Audio("src/tiro.mp3"); //som tocado ao levar um tiro
+		const death = new Audio("src/death.mp3"); //som tocado ao destruir um alien
+		const largura = 502; //largura e altura da tela do jogo
+		const altura = 600; //textos e elementos fixos são posicionados e redimensionados de acordo com esse valores
 
 		function main(){
-			tela = new Mapa(502, 600);
+			tela = new Mapa(largura, altura);
+
+			menu = new Mapa(largura, altura);
+
 			input = new uControle();
 
-			var img = new Image();
+			img = new Image();
 			img.src = "src/invaders.png";
 
 			var fighter = new Image();
@@ -45,12 +53,40 @@
 				];
 				naveSP = new Sprite(fighter, 0, 0, 30, 30);
 				lifeSP = new Sprite(vida, 0, 0, 30, 30);
-
-				iniciar();
-				executa();
+				cima()//chama o menu com iniciar pré selecionado
 			})
 			
 		};
+
+		function cima(){ //opção de cima do menu, para iniciar o jogo
+			menu.refresh();
+			menu.mostraTexto(">Iniciar", 0, 0, largura*0.03);
+			menu.mostraTexto("Sair", 0, altura*0.05, largura*0.03);
+			if(input.botaoPressiona(13)){
+				window.cancelAnimationFrame(cimaId);
+				window.cancelAnimationFrame(baixoId);
+				document.body.removeChild(menu.canvas)
+				document.body.appendChild(tela.canvas)
+				iniciar();		
+				executa();
+			}else if(input.botaoPressiona(40)){
+				baixo()
+			}else{
+				cimaId = window.requestAnimationFrame(cima)
+			}
+		}
+		function baixo(){ //opção de baixo do menu, para encerrar o jogo
+			menu.refresh();
+			menu.mostraTexto("Iniciar", 0, 0, largura*0.03);
+			menu.mostraTexto(">Sair", 0, altura*0.05, largura*0.03);			
+			if(input.botaoPressiona(13)){
+				document.getElementsByTagName('BODY')[0].innerHTML = '';//apaga tudo o que tem na página
+			}else if(input.botaoPressiona(38)){
+				cima()
+			}else{
+				baixoId = window.requestAnimationFrame(baixo)
+			}
+		}
 
 		function iniciar(){ //inicia o jogo
 			frames = 0;
@@ -69,7 +105,7 @@
 
 			life = {
 				sprite: lifeSP,
-				x: 450,
+				x: largura*0.81,
 				y: 3,
 				largura: lifeSP.largura,
 				altura: lifeSP.altura,
@@ -93,16 +129,27 @@
 					});
 				}
 			}
+
+			theme.loop = true;
+			theme.currentTime = 2;
+			theme.play();
 		};
 
 		function executa(){ //faz o jogo funcionar de forma visual
 			var joga = function(){
 				update();
 				render();
-
-				window.requestAnimationFrame(joga, tela.canvas);
+				if((life.valor > 0)&&(aliens.length > 0)){
+					jogoId = window.requestAnimationFrame(joga, tela.canvas);
+				}else if(input.botaoPressiona(13)){ //espera por um enter quando o jogo acaba
+					window.cancelAnimationFrame(jogoId)
+					img = new Image();
+					main();
+				}else{
+					jogoId = window.requestAnimationFrame(joga, tela.canvas);
+				}
 			}
-			window.requestAnimationFrame(joga, tela.canvas);
+			jogoId = window.requestAnimationFrame(joga, tela.canvas);
 		};
 
 		function update(){ //atualiza o estado do jogo
@@ -115,8 +162,8 @@
 			}
 			nave.x = Math.max(Math.min(nave.x, tela.width - (30 + naveSP.largura)), 30); //limita a nave a não sair da tela
 
-			if(input.botaoPressiona(32)){ //atirar
-				projetil.push(new atiraProjetil(nave.x + 14, nave.y, -8, 2, 6, "#f00"));
+			if(input.botaoPressiona(32) && life.valor > 0){ //atirar
+				projetil.push(new atiraProjetil(nave.x + 14, nave.y, -8, 2, 7, "#f00"));
 			}
 
 			for(var i = 0, tam = projetil.length; i < tam; i++){
@@ -134,6 +181,7 @@
 					nave.dano-=damage; //incrementa o dano da nave
 					life.valor--; // tira uma barra de life da nave
 					projetil.splice(i,1);
+					tiro.play();
 					i--;
 					tam--;
 				}
@@ -145,6 +193,7 @@
 						j--;
 						tam2--;
 						projetil.splice(i, 1);
+						death.play();
 						i--;
 						tam--;
 						life.pontos++; //incrementa a pontuacao
@@ -153,7 +202,7 @@
 
 			}
 
-			if(Math.random() < 0.03 && aliens.length > 0){ //tiro dos aliens
+			if(Math.random() < 0.03 && aliens.length > 0 && life.valor > 0){ //tiro dos aliens
 				var a = aliens[Math.round(Math.random() * (aliens.length - 1))]
 
 				for(var i = 0, tam = aliens.length; i < tam; i++){
@@ -162,7 +211,7 @@
 						a = b;
 					}//evita que o sprite dos projéteis dos aliens de atras passem por cima dos aliens da frente
 				}
-				projetil.push(new atiraProjetil(a.x + a.largura*0.5, a.y + a.altura, 4, 2, 4, "#0f0"));
+				projetil.push(new atiraProjetil(a.x + a.largura*0.5, a.y + a.altura, 4, 4, 4, "#0f0"));
 			}
 
 
@@ -212,25 +261,18 @@
 				tela.modelo2D.restore();
 				tela.mostraSprite(nave.sprite, nave.x, nave.y);
 				tela.mostraSprite(life.sprite, life.x, life.y);
-				tela.mostraTexto("x"+life.valor, 170, -270, 15);
+				tela.mostraTexto("x"+life.valor, (life.x/2), -((altura*0.93)/2), (largura*0.03));
 			}else if(aliens.length > 0){
-				tela.mostraTexto("Game Over", -150, 0, 50);//gameover
-				if ((life.pontos == 1)||(life.pontos == -1)){
-					tela.mostraTexto("Você conseguiu "+life.pontos+" ponto", -200, 50, 30);
-				}else{
-					tela.mostraTexto("Você conseguiu "+life.pontos+" pontos", -200, 50, 30);	
-				}
+				theme.pause();
+				tela.mostraTexto("Game Over", 0, 0, (largura*0.1));//gameover
+				tela.mostraTexto("Você conseguiu "+life.pontos+" pontos", 0, 50, (largura*0.03));
 			}else{
-				tela.mostraTexto("Parabéns", -150, 0, 50);//gameover
-				if ((life.pontos == 1)||(life.pontos == -1)){
-					tela.mostraTexto("Você ganhou! Sua pontuacao foi de "+life.pontos+" ponto", -200, 50, 15);
-				}else{
-					tela.mostraTexto("Você ganhou! Sua pontuacao foi de "+life.pontos+" pontos", -200, 50, 15);	
-				}
+				theme.pause();
+				tela.mostraTexto("Parabéns", 0, 0, (largura*0.1));//gameover
+				tela.mostraTexto("Você ganhou! Sua pontuacao foi de "+life.pontos+" pontos", 0, 50, (largura*0.03));	
 			}
 		};
-		
-		main();
+		main()
 	</script>
 </body>
 </html>
