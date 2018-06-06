@@ -4,7 +4,7 @@ function Mapa(largura, altura){
 	this.canvas.width = this.width = largura; //largura da tela
 	this.canvas.height = this.height = altura; //altura da tela
 	this.modelo2D = this.canvas.getContext("2d"); //objeto com métodos e propriedades pra trabalhar no canvas em 2d
-	this.canvas.style.backgroundImage = "url('src/space3.gif')";
+	this.canvas.style.backgroundImage = "url('src/space2.png')";
 	this.modelo2D.textAlign="center"
 
 	document.body.appendChild(this.canvas);
@@ -89,3 +89,14 @@ atiraProjetil.prototype.atualiza = function(){ //realiza o movimento do projéti
 function colide(ax, ay, aLargura, aAltura, bx, by, bLargura, bAltura){
 	return ax < bx+bLargura && bx < ax+aLargura && ay < by+bAltura && by < ay+aAltura;
 };
+
+
+//Função para pausar o jogo
+function pausar(){
+    if (!paused){
+        paused = true;
+    }
+    else if(paused){
+       paused = false;
+    }
+}
