@@ -170,8 +170,8 @@
 			}
 			nave.x = Math.max(Math.min(nave.x, tela.width - (30 + naveSP.largura)), 30); //limita a nave a não sair da tela
 
-			if(input.botaoPressiona(32) && life.valor > 0){ //atirar
-				projetil.push(new atiraProjetil(nave.x + 14, nave.y, -8, 2, 7, "#f00"));
+			if(input.botaoAperta(32) && life.valor > 0 && frames % (frameLevel/2) === 0){ //atirar
+						projetil.push(new atiraProjetil(nave.x + 14, nave.y, -8, 2, 7, "#f00"));
 			}
 
 			for(var i = 0, tam = projetil.length; i < tam; i++){
