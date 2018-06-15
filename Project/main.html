@@ -24,6 +24,7 @@
 		var aliens, direcao, nave, projetil, projetilAlien; //objetos do jogo
 		var paused = false; //variável para controle de pausa
 		const damage = 16; // constante de dano da nave
+		const main_theme = new Audio("src/main_theme.mp3"); //música tema
 		const theme = new Audio("src/theme.mp3"); //música tema
 		const tiro = new Audio("src/tiro.mp3"); //som tocado ao levar um tiro
 		const death = new Audio("src/death.mp3"); //som tocado ao destruir um alien
@@ -56,6 +57,9 @@
 				lifeSP = new Sprite(vida, 0, 0, 30, 30);
 				cima()//chama o menu com iniciar pré selecionado
 			})
+			main_theme.loop = true;
+			main_theme.currentTime = 1;
+			main_theme.play();
 			
 		};
 
@@ -131,9 +135,9 @@
 					});
 				}
 			}
-
+			main_theme.pause();
 			theme.loop = true;
-			theme.currentTime = 2;
+			theme.currentTime = 0;
 			theme.play();
 		};
 
