@@ -19,7 +19,7 @@
 </head>
 <body>
 	<script>
-		var menu, tela, input, frames, frameSP, cimaId, baixoId, jogoId, img; //frameLevel controla a velocidade de atualização de certos sprites
+		var menu, tela, input, frames, frameSP, cimaId, fmeioId, baixoId, facilId, medioId, dificilId, jogoId, img, dificuldade; //frameLevel controla a velocidade de atualização de certos sprites
 		var alienSP, naveSP; //sprites
 		var aliens, direcao, nave, projetil, projetilAlien; //objetos do jogo
 		var paused = false; //variável para controle de pausa
@@ -63,30 +63,114 @@
 			
 		};
 
+		function facil(){ //opção de facilitar o jogo
+			menu.refresh();
+			menu.mostraTexto(">Facil", 0, 0, largura*0.03);
+			menu.mostraTexto("Médio", 0, altura*0.05, largura*0.03);
+			menu.mostraTexto("Difícil", 0, altura*0.1, largura*0.03);
+			if(input.botaoPressiona(13)){
+				dificuldade = 4;
+				window.cancelAnimationFrame(facilId);
+				window.cancelAnimationFrame(medioId);
+				window.cancelAnimationFrame(dificilId);
+				cima();
+			}else if(input.botaoPressiona(40)){
+				medio()
+			}else if(input.botaoPressiona(38)){
+				dificil()
+			}else{
+				facilId = window.requestAnimationFrame(facil)
+			}
+		}
+		function medio(){ //opção de dificulpade padrão
+			menu.refresh();
+			menu.mostraTexto("Fácil", 0, 0, largura*0.03);
+			menu.mostraTexto(">Médio", 0, altura*0.05, largura*0.03);
+			menu.mostraTexto("Difícil", 0, altura*0.1, largura*0.03);
+			if(input.botaoPressiona(13)){
+				dificuldade = 3;
+				window.cancelAnimationFrame(facilId);
+				window.cancelAnimationFrame(medioId);
+				window.cancelAnimationFrame(dificilId);
+				cima();
+			}else if(input.botaoPressiona(38)){
+				facil()
+			}else if(input.botaoPressiona(40)){
+				dificil()
+			}else{
+				medioId = window.requestAnimationFrame(medio)
+			}
+		}
+		function dificil(){ //opção de maior dificuldade
+			menu.refresh();
+			menu.mostraTexto("Fácil", 0, 0, largura*0.03);
+			menu.mostraTexto("Médio", 0, altura*0.05, largura*0.03);
+			menu.mostraTexto(">Difícil", 0, altura*0.1, largura*0.03);			
+			if(input.botaoPressiona(13)){
+				dificuldade = 2;
+				window.cancelAnimationFrame(facilId);
+				window.cancelAnimationFrame(medioId);
+				window.cancelAnimationFrame(dificilId);
+				cima();
+			}else if(input.botaoPressiona(38)){
+				medio()
+			}else if(input.botaoPressiona(40)){
+				facil()
+			}else{
+				dificilId = window.requestAnimationFrame(dificil)
+			}
+		}
+		
 		function cima(){ //opção de cima do menu, para iniciar o jogo
 			menu.refresh();
 			menu.mostraTexto(">Iniciar", 0, 0, largura*0.03);
-			menu.mostraTexto("Sair", 0, altura*0.05, largura*0.03);
+			menu.mostraTexto("Dificuldade", 0, altura*0.05, largura*0.03);
+			menu.mostraTexto("Sair", 0, altura*0.1, largura*0.03);
 			if(input.botaoPressiona(13)){
 				window.cancelAnimationFrame(cimaId);
 				window.cancelAnimationFrame(baixoId);
+				window.cancelAnimationFrame(fmeioId);
 				document.body.removeChild(menu.canvas)
 				document.body.appendChild(tela.canvas)
 				iniciar();		
 				executa();
 			}else if(input.botaoPressiona(40)){
+				fmeio()
+			}else if(input.botaoPressiona(38)){
 				baixo()
 			}else{
 				cimaId = window.requestAnimationFrame(cima)
 			}
 		}
+		function fmeio(){ //opção do meio do menu, para alterar a dificuldade
+			menu.refresh();
+			menu.mostraTexto("Iniciar", 0, 0, largura*0.03);
+			menu.mostraTexto(">Dificuldade", 0, altura*0.05, largura*0.03);
+			menu.mostraTexto("Sair", 0, altura*0.1, largura*0.03);
+			if(input.botaoPressiona(13)){
+				window.cancelAnimationFrame(cimaId);
+				window.cancelAnimationFrame(baixoId);
+				window.cancelAnimationFrame(fmeioId);
+				medio();
+			}else if(input.botaoPressiona(38)){
+				cima()
+			}else if(input.botaoPressiona(40)){
+				baixo()
+			}else{
+				fmeioId = window.requestAnimationFrame(fmeio)
+			}
+		}
 		function baixo(){ //opção de baixo do menu, para encerrar o jogo
 			menu.refresh();
 			menu.mostraTexto("Iniciar", 0, 0, largura*0.03);
-			menu.mostraTexto(">Sair", 0, altura*0.05, largura*0.03);			
+			menu.mostraTexto("Dificuldade", 0, altura*0.05, largura*0.03);
+			menu.mostraTexto(">Sair", 0, altura*0.1, largura*0.03);			
 			if(input.botaoPressiona(13)){
 				document.getElementsByTagName('BODY')[0].innerHTML = '';//apaga tudo o que tem na página
+				main_theme.pause(); //silencia o tema
 			}else if(input.botaoPressiona(38)){
+				fmeio()
+			}else if(input.botaoPressiona(40)){
 				cima()
 			}else{
 				baixoId = window.requestAnimationFrame(baixo)
@@ -170,7 +254,7 @@
 			}
 			nave.x = Math.max(Math.min(nave.x, tela.width - (30 + naveSP.largura)), 30); //limita a nave a não sair da tela
 
-			if(input.botaoAperta(32) && life.valor > 0 && frames % (frameLevel/2) === 0){ //atirar
+			if(input.botaoAperta(32) && life.valor > 0 && frames % (frameLevel/dificuldade) === 0){ //atirar com a tecla espaço pressionada, limitado pela dificuldade
 						projetil.push(new atiraProjetil(nave.x + 14, nave.y, -8, 2, 7, "#f00"));
 			}
 
@@ -245,7 +329,7 @@
 			}
 
 			frames++;
-			if(frames % frameLevel === 0){ //atualiza a posição dos aliens a cada 60 frames, frameLevel = 60
+			if(frames % ((frameLevel*dificuldade)/4) === 0){ //atualiza a posição dos aliens a cada 60 frames, frameLevel = 60
 				frameSP = (frameSP + 1) % 2;
 				var maximo = 0, minimo = tela.width;
 
