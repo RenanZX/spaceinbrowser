@@ -5,7 +5,5 @@ Obs.: Testes realizados no Google Chrome e no Mozilla Firefox.
 
 # To-do
 
-  - Criar Menu de seleção
   - Criar Sistema de Ranking
   - Adicionar Suporte a GamePad(opcional)
-  - Adicionar Trilha Sonora

@@ -47,6 +47,12 @@
 			var vida = new Image();
 			vida.src = "src/fighter2.png";
 
+			var gamelogo = new Image();
+			gamelogo.src = "src/gamelogo.png";
+            
+            main_theme.loop = true;
+			main_theme.currentTime = 1;
+
 			img.addEventListener("load", function(){ //Faz o recorte de cada sprite da imagem completa
 				alienSP = [
 					[new Sprite(this, 0, 0, 22, 16), new Sprite(this, 0, 16, 22, 16)],
@@ -55,17 +61,32 @@
 				];
 				naveSP = new Sprite(fighter, 0, 0, 30, 30);
 				lifeSP = new Sprite(vida, 0, 0, 30, 30);
+				gamelogoSP = new Sprite(gamelogo, 0, 0, 200, 100);
 				cima()//chama o menu com iniciar pré selecionado
 			})
-			main_theme.loop = true;
-			main_theme.currentTime = 1;
-			main_theme.play();
-			
 		};
+
+		function LogoAnimation(){
+           if(gamelogoSP.img.src.includes("src/gamelogo.png")){
+			   gamelogoSP.img.src = "src/gamelogo2.png";
+			}else if(gamelogoSP.img.src.includes("src/gamelogo2.png")){
+			   gamelogoSP.img.src = "src/gamelogo3.png";
+			}else if(gamelogoSP.img.src.includes("src/gamelogo3.png")){
+			   gamelogoSP.img.src = "src/gamelogo4.png";
+			}else if(gamelogoSP.img.src.includes("src/gamelogo4.png")){
+				gamelogoSP.img.src = "src/gamelogo5.png";
+			}else if(gamelogoSP.img.src.includes("src/gamelogo5.png")){
+				gamelogoSP.img.src = "src/gamelogo.png";
+			}
+		}
 
 		function facil(){ //opção de facilitar o jogo
 			menu.refresh();
-			menu.mostraTexto(">Facil", 0, 0, largura*0.03);
+			main_theme.autoplay = true;
+			main_theme.play();
+			LogoAnimation();
+			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
+			menu.mostraTexto(">>  Fácil  <<", 0, 0, largura*0.03);
 			menu.mostraTexto("Médio", 0, altura*0.05, largura*0.03);
 			menu.mostraTexto("Difícil", 0, altura*0.1, largura*0.03);
 			if(input.botaoPressiona(13)){
@@ -84,8 +105,12 @@
 		}
 		function medio(){ //opção de dificulpade padrão
 			menu.refresh();
+			main_theme.autoplay = true;
+			main_theme.play();
+			LogoAnimation();
+			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto("Fácil", 0, 0, largura*0.03);
-			menu.mostraTexto(">Médio", 0, altura*0.05, largura*0.03);
+			menu.mostraTexto(">>  Médio  <<", 0, altura*0.05, largura*0.03);
 			menu.mostraTexto("Difícil", 0, altura*0.1, largura*0.03);
 			if(input.botaoPressiona(13)){
 				dificuldade = 3;
@@ -103,9 +128,13 @@
 		}
 		function dificil(){ //opção de maior dificuldade
 			menu.refresh();
+			main_theme.autoplay = true;
+			main_theme.play();
+			LogoAnimation();
+			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto("Fácil", 0, 0, largura*0.03);
 			menu.mostraTexto("Médio", 0, altura*0.05, largura*0.03);
-			menu.mostraTexto(">Difícil", 0, altura*0.1, largura*0.03);			
+			menu.mostraTexto(">>  Difícil  <<", 0, altura*0.1, largura*0.03);			
 			if(input.botaoPressiona(13)){
 				dificuldade = 2;
 				window.cancelAnimationFrame(facilId);
@@ -122,8 +151,10 @@
 		}
 		
 		function cima(){ //opção de cima do menu, para iniciar o jogo
-			menu.refresh();
-			menu.mostraTexto(">Iniciar", 0, 0, largura*0.03);
+            menu.refresh();
+            LogoAnimation();
+			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
+			menu.mostraTexto(">>  Iniciar  <<", 0, 0, largura*0.03);
 			menu.mostraTexto("Dificuldade", 0, altura*0.05, largura*0.03);
 			menu.mostraTexto("Sair", 0, altura*0.1, largura*0.03);
 			if(input.botaoPressiona(13)){
@@ -144,8 +175,12 @@
 		}
 		function fmeio(){ //opção do meio do menu, para alterar a dificuldade
 			menu.refresh();
+			main_theme.autoplay = true;
+			main_theme.play();
+			LogoAnimation();
+			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto("Iniciar", 0, 0, largura*0.03);
-			menu.mostraTexto(">Dificuldade", 0, altura*0.05, largura*0.03);
+			menu.mostraTexto(">>  Dificuldade  <<", 0, altura*0.05, largura*0.03);
 			menu.mostraTexto("Sair", 0, altura*0.1, largura*0.03);
 			if(input.botaoPressiona(13)){
 				window.cancelAnimationFrame(cimaId);
@@ -162,9 +197,13 @@
 		}
 		function baixo(){ //opção de baixo do menu, para encerrar o jogo
 			menu.refresh();
+			main_theme.autoplay = true;
+			main_theme.play();
+			LogoAnimation();
+			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto("Iniciar", 0, 0, largura*0.03);
 			menu.mostraTexto("Dificuldade", 0, altura*0.05, largura*0.03);
-			menu.mostraTexto(">Sair", 0, altura*0.1, largura*0.03);			
+			menu.mostraTexto(">>  Sair  <<", 0, altura*0.1, largura*0.03);			
 			if(input.botaoPressiona(13)){
 				document.getElementsByTagName('BODY')[0].innerHTML = '';//apaga tudo o que tem na página
 				main_theme.pause(); //silencia o tema
