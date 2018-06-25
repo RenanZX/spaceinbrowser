@@ -3,7 +3,8 @@ Space Inbrowser é um jogo programado na linguagem JavaScript para navegadores d
 
 Obs.: Testes realizados no Google Chrome e no Mozilla Firefox.
 
-# To-do
+# Importante
 
-  - Criar Sistema de Ranking
-  - Adicionar Suporte a GamePad(opcional)
+## Google Chrome:
+Caso esteja no google chrome, antes de inicializar o game, verifique se as políticas
+de autoplay estão desativadas, para isso na barra do seu navegador digite ´´´chrome://flags/#autoplay-policy´´´  e altere o ´´´default´´´ para ´´´No user gesture is required´´´.

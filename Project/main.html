@@ -52,6 +52,8 @@
             
             main_theme.loop = true;
 			main_theme.currentTime = 1;
+			main_theme.autoplay = true;
+			main_theme.load();
 
 			img.addEventListener("load", function(){ //Faz o recorte de cada sprite da imagem completa
 				alienSP = [
@@ -82,14 +84,14 @@
 
 		function facil(){ //opção de facilitar o jogo
 			menu.refresh();
-			main_theme.autoplay = true;
-			main_theme.play();
 			LogoAnimation();
+			main_theme.autoplay = "";
+			main_theme.play();
 			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto(">>  Fácil  <<", 0, 0, largura*0.03);
 			menu.mostraTexto("Médio", 0, altura*0.05, largura*0.03);
 			menu.mostraTexto("Difícil", 0, altura*0.1, largura*0.03);
-			if(input.botaoPressiona(13)){
+			if((input.botaoPressiona(13))){
 				dificuldade = 4;
 				window.cancelAnimationFrame(facilId);
 				window.cancelAnimationFrame(medioId);
@@ -105,9 +107,8 @@
 		}
 		function medio(){ //opção de dificulpade padrão
 			menu.refresh();
-			main_theme.autoplay = true;
-			main_theme.play();
 			LogoAnimation();
+			main_theme.play();
 			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto("Fácil", 0, 0, largura*0.03);
 			menu.mostraTexto(">>  Médio  <<", 0, altura*0.05, largura*0.03);
@@ -128,14 +129,13 @@
 		}
 		function dificil(){ //opção de maior dificuldade
 			menu.refresh();
-			main_theme.autoplay = true;
-			main_theme.play();
 			LogoAnimation();
+			main_theme.play();
 			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto("Fácil", 0, 0, largura*0.03);
 			menu.mostraTexto("Médio", 0, altura*0.05, largura*0.03);
 			menu.mostraTexto(">>  Difícil  <<", 0, altura*0.1, largura*0.03);			
-			if(input.botaoPressiona(13)){
+            if(input.botaoPressiona(13)){
 				dificuldade = 2;
 				window.cancelAnimationFrame(facilId);
 				window.cancelAnimationFrame(medioId);
@@ -153,11 +153,12 @@
 		function cima(){ //opção de cima do menu, para iniciar o jogo
             menu.refresh();
             LogoAnimation();
+            main_theme.play();
 			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto(">>  Iniciar  <<", 0, 0, largura*0.03);
 			menu.mostraTexto("Dificuldade", 0, altura*0.05, largura*0.03);
-			menu.mostraTexto("Sair", 0, altura*0.1, largura*0.03);
-			if(input.botaoPressiona(13)){
+			menu.mostraTexto("Sair", 0, altura*0.1, largura*0.03);	
+            if(input.botaoPressiona(13)){
 				window.cancelAnimationFrame(cimaId);
 				window.cancelAnimationFrame(baixoId);
 				window.cancelAnimationFrame(fmeioId);
@@ -175,9 +176,8 @@
 		}
 		function fmeio(){ //opção do meio do menu, para alterar a dificuldade
 			menu.refresh();
-			main_theme.autoplay = true;
-			main_theme.play();
 			LogoAnimation();
+			main_theme.play();
 			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto("Iniciar", 0, 0, largura*0.03);
 			menu.mostraTexto(">>  Dificuldade  <<", 0, altura*0.05, largura*0.03);
@@ -197,9 +197,8 @@
 		}
 		function baixo(){ //opção de baixo do menu, para encerrar o jogo
 			menu.refresh();
-			main_theme.autoplay = true;
-			main_theme.play();
 			LogoAnimation();
+			main_theme.play();
 			menu.mostraSprite(gamelogoSP, gamelogoSP.x+180, gamelogoSP.y+140);
 			menu.mostraTexto("Iniciar", 0, 0, largura*0.03);
 			menu.mostraTexto("Dificuldade", 0, altura*0.05, largura*0.03);
@@ -396,7 +395,7 @@
 			}
 
 			if(paused){ //Se paused = true, mostra Pause na tela
-				tela.mostraTexto("Pause.", 0, 0, (largura*0.1));
+				tela.mostraTexto("Pause", 0, 0, (largura*0.1));
 			}
 
 			if((life.valor > 0)&&(aliens.length > 0)){//verifica se ainda existem vidas
