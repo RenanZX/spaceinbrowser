@@ -8,3 +8,6 @@ Obs.: Testes realizados no Google Chrome e no Mozilla Firefox.
 ### Google Chrome
 Caso esteja no google chrome, antes de inicializar o game, verifique se as políticas
 de autoplay estão desativadas, para isso na barra do seu navegador digite ```chrome://flags/#autoplay-policy```  e altere a opção ```default``` para ```No user gesture is required```.
+
+## Joysticks Suportados
+PS3, PS4, Xbox 360, Xbox One
